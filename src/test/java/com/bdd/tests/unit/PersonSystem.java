@@ -2,7 +2,9 @@ package com.bdd.tests.unit;
 
 import com.bdd.customers.Customer;
 import com.bdd.customers.Person;
+import com.bdd.stylists.Stylist;
 import com.bdd.tests.factory.CustomerSystem;
+import com.bdd.tests.factory.StylistSystem;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.HashMap;
@@ -12,6 +14,8 @@ public class PersonSystem {
     private Map<String, Person> emailEmployeeMap = new HashMap<>();
     private long autoGenerateId = 0;
     private Map<Long, Person> employeeMap = new HashMap<>();
+
+
 
     public Person addPerson(Person person) {
         if(emailEmployeeMap.containsKey(person.getEmail())) {
@@ -36,5 +40,12 @@ public class PersonSystem {
         customer.setId(person.getId());
 
         return customer;
+    }
+
+    public static Stylist toStylist(Person person) {
+        Stylist stylist = StylistSystem.createStylist(person.getFirstName(), person.getLastName(), person.getEmail());
+        stylist.setId(person.getId());
+
+        return stylist;
     }
 }

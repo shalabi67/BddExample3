@@ -12,5 +12,5 @@ import org.junit.runner.RunWith;
         "html:target/reports",
         "json:target/reports/cucumber.json"
 })
-public class EmployeesIT {
+public class SystemIT {
 }

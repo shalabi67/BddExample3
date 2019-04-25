@@ -1,8 +1,8 @@
 package com.bdd.tests.integration;
 
-import com.bdd.customers.Customer;
-import com.bdd.customers.CustomerController;
-import com.bdd.tests.factory.CustomerSystem;
+import com.bdd.stylists.Stylist;
+import com.bdd.stylists.StylistController;
+import com.bdd.tests.factory.StylistSystem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +11,23 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-public class IntegrationCustomerSystem extends CustomerSystem {
+public class IntegrationStylistSystem extends StylistSystem {
     private MockMvc mockMvc;
 
-    public IntegrationCustomerSystem(MockMvc mockMvc) {
+    public IntegrationStylistSystem(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
     @Override
-    public ResponseEntity<Customer> addCustomer(Customer customer) {
-        JsonMapper<Customer> jsonMapper = new JsonMapper<>();
+    public ResponseEntity<Stylist> addStylist(Stylist stylist) {
+        JsonMapper<Stylist> jsonMapper = new JsonMapper<>();
         MvcResult mvcResult = null;
         try {
             mvcResult = this.mockMvc
                     .perform(
-                            post(CustomerController.URL)
+                            post(StylistController.URL)
                                     .contentType(MediaType.APPLICATION_JSON)
-                                    .content(jsonMapper.toString(customer))
+                                    .content(jsonMapper.toString(stylist))
                                     .accept(MediaType.APPLICATION_JSON)
                     )
                     .andReturn();
