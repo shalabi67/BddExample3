@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 public class QueueConfiguration {
     public static final String QUEUE_NAME = "AppointmentQueue";
 
+
     @Bean
-    public Queue employeeQueue() {
+    public Queue appointmentsQueue() {
         return new Queue(QUEUE_NAME);
     }
+
 }

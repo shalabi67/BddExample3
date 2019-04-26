@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -30,7 +31,6 @@ public class QueueProcessor {
 
     @RabbitHandler
     public void process(Appointment appointment) {
-        Boolean hasError = false;
         try {
             long stylistCount = stylistRepository.count();
             long appointmentsCount = appointmentRepository.countAppointmentsByStartDate(appointment.getStartDate());
@@ -48,18 +48,13 @@ public class QueueProcessor {
                 return;
             } else {
                 logger.info("Appointment rejected because no available stylists exists.");
-                hasError = notifyFail();
+                notifyFail();
                 return;
             }
 
         }catch(Exception e) {
             logger.error(e.getMessage());
             notifyFailException();
-        }finally {
-            // just for testing since no notification system exist.
-            if(hasError) {
-                throw new RuntimeException("Fail");
-            }
         }
     }
 

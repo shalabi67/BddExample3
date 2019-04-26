@@ -56,4 +56,4 @@ Feature: Add Appointment
     Then system will return customer ahd this appointment
     Examples:
       | date              | customerId |
-      | 2019-05-01 10:0   | 1          |
+      | 2019-05-02 10:0   | 1          |

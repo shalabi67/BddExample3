@@ -8,6 +8,11 @@ import org.springframework.http.ResponseEntity;
 public abstract class AppointmentSystem {
     public static final String FAIL_EXCEPTION = "Fail Exception";
 
+    protected AppointmentQueueStatus appointmentQueueStatus = AppointmentQueueStatus.undefined;
+    public AppointmentQueueStatus getAppointmentQueueStatus() {
+        return appointmentQueueStatus;
+    }
+
     public abstract ResponseEntity addAppointment(Appointment appointment);
     public abstract ResponseEntity<Stylist> addStylist(Stylist stylist);
     public abstract ResponseEntity<Customer> addCustomer(Customer customer);

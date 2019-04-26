@@ -7,6 +7,7 @@ import com.bdd.customers.Customer;
 import com.bdd.json.JsonMapper;
 import com.bdd.stylists.Stylist;
 import com.bdd.stylists.StylistController;
+import com.bdd.tests.factory.AppointmentQueueStatus;
 import com.bdd.tests.factory.AppointmentSystem;
 import com.bdd.tests.factory.StylistSystem;
 import org.mockito.Mockito;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class IntegrationAppointmentSystem extends AppointmentSystem {
@@ -44,9 +46,6 @@ public class IntegrationAppointmentSystem extends AppointmentSystem {
 
     @Override
     public ResponseEntity addAppointment(Appointment appointment) {
-        Mockito.when(queueProcessor.notifyFailException()).thenAnswer(invocationOnMock -> {
-            return true;
-        });
         JsonMapper<Appointment> jsonMapper = new JsonMapper<>();
         MvcResult mvcResult = null;
         try {

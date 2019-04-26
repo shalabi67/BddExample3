@@ -11,6 +11,7 @@ import com.bdd.customers.Customer;
 import com.bdd.customers.CustomerRepository;
 import com.bdd.stylists.Stylist;
 import com.bdd.stylists.StylistRepository;
+import com.bdd.tests.factory.AppointmentQueueStatus;
 import com.bdd.tests.factory.AppointmentSystem;
 import com.bdd.tests.factory.StylistSystem;
 import org.mockito.Mockito;
@@ -99,7 +100,6 @@ public class UnitAppointmentSystem extends AppointmentSystem {
     private QueueProcessor createQueueProcessorMock(Appointment appointment) {
         StylistRepository stylistRepository = Mockito.mock(StylistRepository.class);
         Mockito.when(stylistRepository.count()).thenReturn(stylistCount);
-        //HashSet<Stylist> stylists = new HashSet<>();
         List<Stylist> stylists = new ArrayList<>();
         stylists.add(StylistSystem.createStylist());
         Mockito.when(stylistRepository.findStylistsByIdNotIn(any())).thenReturn(stylists);
@@ -126,11 +126,21 @@ public class UnitAppointmentSystem extends AppointmentSystem {
             return appointmentsCount;
         });
 
+
         QueueProcessor queueProcessor = new QueueProcessor(appointmentRepository, stylistRepository);
 
         QueueProcessor spyQueueProcessor = Mockito.spy(queueProcessor);
         Mockito.when(spyQueueProcessor.notifyFailException()).thenAnswer(invocationOnMock -> {
-            throw new RuntimeException(AppointmentSystem.FAIL_EXCEPTION);
+            appointmentQueueStatus = AppointmentQueueStatus.exceptionFail;
+            return true;
+        });
+        Mockito.when(spyQueueProcessor.notifySuccess()).thenAnswer(invocationOnMock -> {
+            appointmentQueueStatus = AppointmentQueueStatus.success;
+            return true;
+        });
+        Mockito.when(spyQueueProcessor.notifyFail()).thenAnswer(invocationOnMock -> {
+            appointmentQueueStatus = AppointmentQueueStatus.fail;
+            return true;
         });
 
         return spyQueueProcessor;

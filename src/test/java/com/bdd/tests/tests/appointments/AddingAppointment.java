@@ -5,6 +5,7 @@ import com.bdd.appointments.queue.QueueProcessor;
 import com.bdd.customers.Customer;
 import com.bdd.framework.Properties;
 import com.bdd.stylists.Stylist;
+import com.bdd.tests.factory.AppointmentQueueStatus;
 import com.bdd.tests.factory.AppointmentSystem;
 import com.bdd.tests.factory.CustomerSystem;
 import com.bdd.tests.factory.SystemFactory;
@@ -107,12 +108,9 @@ public class AddingAppointment {
 
     @Then("system notify stylist not available")
     public void systemNotifyStylistNotAvailable() {
-        try {
-            ResponseEntity responseEntity = appointmentSystem.addAppointment(appointment);
-            Assert.fail();
-        }catch(RuntimeException e) {
-            Assert.assertEquals("Fail", e.getMessage());
-        }
+        ResponseEntity responseEntity = appointmentSystem.addAppointment(appointment);
+        Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        Assert.assertEquals(AppointmentQueueStatus.fail, appointmentSystem.getAppointmentQueueStatus());
     }
 
     @When("^user try to create an appointment he already has by providing (.+), and (.+)$")
@@ -121,6 +119,7 @@ public class AddingAppointment {
 
         ResponseEntity responseEntity = appointmentSystem.addAppointment(appointment);
         Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        Thread.sleep(300);  //give time for the processor to execute
     }
 
     @Then("^system will return customer ahd this appointment$")
