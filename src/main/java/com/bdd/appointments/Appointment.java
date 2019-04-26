@@ -4,21 +4,22 @@ import com.bdd.customers.Customer;
 import com.bdd.stylists.Stylist;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
 
 @Entity
-public class Appointment {
+public class Appointment implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    private Date startDate;  //time slot start date and time
-    private short duration;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    //TODO: notice this should be of type Date, we are using string here fro simplicity, later on this should be Date.
+    private String startDate;  //time slot start date and time
+
+    @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     Customer customer;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "stylist_id", referencedColumnName = "id")
     Stylist stylist;
 
@@ -30,20 +31,12 @@ public class Appointment {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
-    }
-
-    public short getDuration() {
-        return duration;
-    }
-
-    public void setDuration(short duration) {
-        this.duration = duration;
     }
 
     public Customer getCustomer() {

@@ -2,6 +2,7 @@ package com.bdd.tests.integration;
 
 import com.bdd.customers.Customer;
 import com.bdd.customers.CustomerController;
+import com.bdd.json.JsonMapper;
 import com.bdd.tests.factory.CustomerSystem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

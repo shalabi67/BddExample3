@@ -1,7 +1,9 @@
 package com.bdd.customers;
 
 
-public class Person{
+import java.io.Serializable;
+
+public class Person implements Serializable {
 
     protected Long id;
     protected String firstName;

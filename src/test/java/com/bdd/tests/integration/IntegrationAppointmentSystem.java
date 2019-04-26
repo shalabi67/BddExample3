@@ -1,9 +1,16 @@
 package com.bdd.tests.integration;
 
+import com.bdd.appointments.Appointment;
+import com.bdd.appointments.AppointmentController;
+import com.bdd.appointments.queue.QueueProcessor;
+import com.bdd.customers.Customer;
 import com.bdd.json.JsonMapper;
 import com.bdd.stylists.Stylist;
 import com.bdd.stylists.StylistController;
+import com.bdd.tests.factory.AppointmentSystem;
 import com.bdd.tests.factory.StylistSystem;
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +19,42 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-public class IntegrationStylistSystem extends StylistSystem {
+public class IntegrationAppointmentSystem extends AppointmentSystem {
     private MockMvc mockMvc;
+    private QueueProcessor queueProcessor;
+    private IntegrationCustomerSystem customerSystem;
+    private IntegrationStylistSystem stylistSystem;
 
-    public IntegrationStylistSystem(MockMvc mockMvc) {
+    public IntegrationAppointmentSystem(MockMvc mockMvc, QueueProcessor queueProcessor) {
         this.mockMvc = mockMvc;
+        this.queueProcessor = queueProcessor;
+        customerSystem = new IntegrationCustomerSystem(mockMvc);
+        stylistSystem = new IntegrationStylistSystem(mockMvc);
     }
 
     @Override
     public ResponseEntity<Stylist> addStylist(Stylist stylist) {
-        JsonMapper<Stylist> jsonMapper = new JsonMapper<>();
+        return stylistSystem.addStylist(stylist);
+    }
+
+    @Override
+    public ResponseEntity<Customer> addCustomer(Customer customer) {
+        return customerSystem.addCustomer(customer);
+    }
+
+    @Override
+    public ResponseEntity addAppointment(Appointment appointment) {
+        Mockito.when(queueProcessor.notifyFailException()).thenAnswer(invocationOnMock -> {
+            return true;
+        });
+        JsonMapper<Appointment> jsonMapper = new JsonMapper<>();
         MvcResult mvcResult = null;
         try {
             mvcResult = this.mockMvc
                     .perform(
-                            post(StylistController.URL)
+                            post(AppointmentController.URL)
                                     .contentType(MediaType.APPLICATION_JSON)
-                                    .content(jsonMapper.toString(stylist))
+                                    .content(jsonMapper.toString(appointment))
                                     .accept(MediaType.APPLICATION_JSON)
                     )
                     .andReturn();

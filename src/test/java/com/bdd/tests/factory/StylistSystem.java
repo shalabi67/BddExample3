@@ -15,4 +15,10 @@ public abstract class StylistSystem {
 
         return stylist;
     }
+    public static Stylist createStylist() {
+        Stylist stylist = createStylist("firstName", "lastName", "email@gmail.com");
+        stylist.setId(1L);
+
+        return stylist;
+    }
 }

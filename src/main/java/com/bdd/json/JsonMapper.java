@@ -1,4 +1,4 @@
-package com.bdd.tests.integration;
+package com.bdd.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

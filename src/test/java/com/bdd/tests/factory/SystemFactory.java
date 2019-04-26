@@ -2,10 +2,12 @@ package com.bdd.tests.factory;
 
 import com.bdd.framework.Properties;
 import com.bdd.framework.TestingTypeEnum;
+import com.bdd.tests.integration.AppointmentProperties;
 
 public abstract class SystemFactory {
     public abstract CustomerSystem createCustomerSystem(Properties properties);
     public abstract StylistSystem createStylistSystem(Properties properties);
+    public abstract AppointmentSystem createAppointmentSystem(AppointmentProperties properties);
 
     private static SystemFactory systemFactory = null;
     public static SystemFactory create() {
