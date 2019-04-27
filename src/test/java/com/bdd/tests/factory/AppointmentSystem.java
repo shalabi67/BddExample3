@@ -6,9 +6,9 @@ import com.bdd.stylists.Stylist;
 import org.springframework.http.ResponseEntity;
 
 public abstract class AppointmentSystem {
-    public static final String FAIL_EXCEPTION = "Fail Exception";
-
     protected AppointmentQueueStatus appointmentQueueStatus = AppointmentQueueStatus.undefined;
+    protected boolean isInitialized = false;
+
     public AppointmentQueueStatus getAppointmentQueueStatus() {
         return appointmentQueueStatus;
     }
@@ -16,6 +16,11 @@ public abstract class AppointmentSystem {
     public abstract ResponseEntity addAppointment(Appointment appointment);
     public abstract ResponseEntity<Stylist> addStylist(Stylist stylist);
     public abstract ResponseEntity<Customer> addCustomer(Customer customer);
+    public abstract void setInitialized();
+
+    public boolean isInitialized() {
+        return isInitialized;
+    }
 
 
     public static Appointment createAppointment(String startDate, long customerId) {

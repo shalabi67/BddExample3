@@ -1,10 +1,7 @@
 package com.bdd.tests.factory;
 
 import com.bdd.framework.Properties;
-import com.bdd.tests.integration.AppointmentProperties;
-import com.bdd.tests.integration.IntegrationAppointmentSystem;
-import com.bdd.tests.integration.IntegrationCustomerSystem;
-import com.bdd.tests.integration.IntegrationStylistSystem;
+import com.bdd.tests.integration.*;
 
 public class IntegrationSystemFactory extends SystemFactory{
     private static IntegrationAppointmentSystem appointmentSystem = null;
@@ -24,5 +21,10 @@ public class IntegrationSystemFactory extends SystemFactory{
             appointmentSystem = new IntegrationAppointmentSystem(properties.getMockMvc(), properties.getQueueProcessor());
         }
         return appointmentSystem;
+    }
+
+    @Override
+    public TimeSlotSystem createTimeSlotSystem(Properties properties) {
+        return new IntegrationTimeSlotSystem(properties.getMockMvc());
     }
 }

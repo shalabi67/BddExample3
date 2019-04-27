@@ -50,6 +50,11 @@ public class UnitAppointmentSystem extends AppointmentSystem {
     }
 
     @Override
+    public void setInitialized() {
+        isInitialized = false;
+    }
+
+    @Override
     public AppointmentQueueStatus getAppointmentQueueStatus() {
         return queueProcessorMock.getAppointmentQueueStatus();
     }

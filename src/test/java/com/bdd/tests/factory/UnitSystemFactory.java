@@ -5,6 +5,7 @@ import com.bdd.tests.integration.AppointmentProperties;
 import com.bdd.tests.unit.UnitAppointmentSystem;
 import com.bdd.tests.unit.UnitCustomerSystem;
 import com.bdd.tests.unit.UnitStylistSystem;
+import com.bdd.tests.unit.UnitTimeSlotSystem;
 
 public class UnitSystemFactory extends SystemFactory{
     @Override
@@ -20,5 +21,10 @@ public class UnitSystemFactory extends SystemFactory{
     @Override
     public AppointmentSystem createAppointmentSystem(AppointmentProperties properties) {
         return new UnitAppointmentSystem();
+    }
+
+    @Override
+    public TimeSlotSystem createTimeSlotSystem(Properties properties) {
+        return new UnitTimeSlotSystem();
     }
 }

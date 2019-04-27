@@ -57,3 +57,14 @@ Feature: Add Appointment
     Examples:
       | date              | customerId |
       | 2019-05-02 10:0   | 1          |
+
+  @alternative
+  Scenario Outline: customer tries to book an appointment for a time slot not available in the system
+    When customer <customerId> tries books one appointment on non existing time slot <startDate>
+    Then system returns non exiting time slot
+    Examples:
+    #No time slots will exist before 2019-04-10 09:00
+      | customerId | startDate        |
+      | 1          | 2018-07-10 08:30 |
+      | 1          | 2018-07-10 17:00 |
+      | 1          | 2018-08-11 09:00 |

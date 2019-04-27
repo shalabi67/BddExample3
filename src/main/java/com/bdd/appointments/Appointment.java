@@ -13,6 +13,7 @@ public class Appointment implements Serializable {
     private Long id;
 
     //TODO: notice this should be of type Date, we are using string here fro simplicity, later on this should be Date.
+    //TODO: this can be replaced by time slot. I will keep it string for simplicity.
     private String startDate;  //time slot start date and time
 
     @OneToOne

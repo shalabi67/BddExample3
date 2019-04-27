@@ -45,6 +45,11 @@ public class IntegrationAppointmentSystem extends AppointmentSystem {
     }
 
     @Override
+    public void setInitialized() {
+        isInitialized = true;
+    }
+
+    @Override
     public ResponseEntity addAppointment(Appointment appointment) {
         JsonMapper<Appointment> jsonMapper = new JsonMapper<>();
         MvcResult mvcResult = null;

@@ -1,18 +1,15 @@
 package com.bdd.appointments;
 
 import com.bdd.appointments.queue.AppointmentQueue;
+import com.bdd.convertors.DateConverter;
 import com.bdd.customers.Customer;
 import com.bdd.customers.CustomerRepository;
-import com.bdd.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -66,17 +63,6 @@ public class AppointmentService {
     }
 
     private String getValidDate(String date) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date expectedDate = format.parse(date);
-            String newDate = format.format(expectedDate);
-            Date actualDate =  format.parse(newDate);
-            if(actualDate.equals(expectedDate)) {
-                return newDate;
-            }
-            return null;
-        } catch (ParseException e) {
-            return null;
-        }
+        return DateConverter.toString(date);
     }
 }
