@@ -19,7 +19,7 @@ public class ReportGenerator {
         jsonFiles.add("target/reports/cucumber.json");
 
         String buildNumber = "1.0";
-        String projectName = "Members Rest API";
+        String projectName = "Appointments Rest API";
         Configuration configuration = new Configuration(reportOutputDirectory, projectName);
         configuration.setBuildNumber(buildNumber);
 
