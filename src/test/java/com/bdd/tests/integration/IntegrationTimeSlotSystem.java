@@ -1,6 +1,7 @@
 package com.bdd.tests.integration;
 
 import com.bdd.json.JsonMapper;
+import com.bdd.slots.TimeSlot;
 import com.bdd.slots.TimeSlotController;
 import com.bdd.slots.TimeSlotData;
 import com.bdd.stylists.Stylist;
@@ -11,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -40,5 +43,15 @@ public class IntegrationTimeSlotSystem extends TimeSlotSystem {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public ResponseEntity<Set<TimeSlot>> getAvailableTimeSlots() {
+        return null;
+    }
+
+    @Override
+    public void setInitialized() {
+        isInitialized = true;
     }
 }

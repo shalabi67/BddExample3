@@ -45,6 +45,11 @@ public class IntegrationAppointmentSystem extends AppointmentSystem {
     }
 
     @Override
+    public int getStylistCount() {
+        return 0;
+    }
+
+    @Override
     public void setInitialized() {
         isInitialized = true;
     }

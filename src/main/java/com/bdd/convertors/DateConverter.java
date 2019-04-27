@@ -13,6 +13,10 @@ public class DateConverter {
             return null;
         }
     }
+
+    public static String toString(Date date) {
+        return format.format(date);
+    }
     public static String toString(String dateString) {
         try {
             Date expectedDate = format.parse(dateString);

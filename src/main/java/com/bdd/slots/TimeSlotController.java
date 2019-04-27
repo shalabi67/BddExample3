@@ -3,10 +3,10 @@ package com.bdd.slots;
 import com.bdd.appointments.Appointment;
 import com.bdd.appointments.AppointmentService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(TimeSlotController.URL)
@@ -22,6 +22,12 @@ public class TimeSlotController {
     @PostMapping
     public ResponseEntity addTimeSlots(@RequestBody TimeSlotData timeSlotData) {
         return timeSlotService.addTimeSlots(timeSlotData);
+    }
+
+    //TODO: notice paging is not implemented for simplicity
+    @GetMapping
+    public ResponseEntity<Set<TimeSlot>> getAvailableTimeSlots() {
+        return timeSlotService.getAvailableTimeSlots();
     }
 
 }

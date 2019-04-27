@@ -133,7 +133,7 @@ public class AddingAppointment {
         Assert.assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
     }
 
-    @When("^customer (.+) tries books one appointment on non existing time slot (.+)$")
+    @When("^time slot customer (.+) tries books one appointment on non existing time slot (.+)$")
     public void customer_tries_books_one_appointment_on_non_existing_time_slot(String customerid, String startdate) {
         appointment = AppointmentSystem.createAppointment(startdate, Long.valueOf(customerid));
     }

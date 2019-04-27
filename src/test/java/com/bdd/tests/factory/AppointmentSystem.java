@@ -16,6 +16,7 @@ public abstract class AppointmentSystem {
     public abstract ResponseEntity addAppointment(Appointment appointment);
     public abstract ResponseEntity<Stylist> addStylist(Stylist stylist);
     public abstract ResponseEntity<Customer> addCustomer(Customer customer);
+    public abstract int getStylistCount();
     public abstract void setInitialized();
 
     public boolean isInitialized() {

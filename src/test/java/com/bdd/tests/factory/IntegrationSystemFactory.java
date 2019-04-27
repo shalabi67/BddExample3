@@ -5,6 +5,7 @@ import com.bdd.tests.integration.*;
 
 public class IntegrationSystemFactory extends SystemFactory{
     private static IntegrationAppointmentSystem appointmentSystem = null;
+    private static IntegrationTimeSlotSystem timeSlotSystem = null;
     @Override
     public CustomerSystem createCustomerSystem(Properties properties){
         return new IntegrationCustomerSystem(properties.getMockMvc());
@@ -25,6 +26,9 @@ public class IntegrationSystemFactory extends SystemFactory{
 
     @Override
     public TimeSlotSystem createTimeSlotSystem(Properties properties) {
-        return new IntegrationTimeSlotSystem(properties.getMockMvc());
+        if(timeSlotSystem == null) {
+            timeSlotSystem = new IntegrationTimeSlotSystem(properties.getMockMvc());
+        }
+        return timeSlotSystem;
     }
 }

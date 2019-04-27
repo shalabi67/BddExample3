@@ -19,8 +19,10 @@ import java.util.*;
 import static org.mockito.ArgumentMatchers.any;
 
 public class QueueProcessorMock {
+    private static QueueProcessorMock queueProcessorMock = null;
     private long stylistCount = 0;
     private long appointmentsCount = 0;
+    private TimeSlotMock timeSlotMock;
 
     private long autoIncrement;
     private AppointmentQueueStatus appointmentQueueStatus;
@@ -47,7 +49,28 @@ public class QueueProcessorMock {
         stylistCount++;
     }
 
-    public QueueProcessorMock(AppointmentQueueStatus appointmentQueueStatus) {
+    public int getStylistCount() {
+        return (int)stylistCount;
+    }
+
+    public static QueueProcessorMock reset() {
+        queueProcessorMock = null;
+        return create();
+    }
+    public static QueueProcessorMock create() {
+        if(queueProcessorMock == null) {
+            queueProcessorMock = new QueueProcessorMock(AppointmentQueueStatus.undefined);
+        }
+        return queueProcessorMock;
+    }
+    public static QueueProcessorMock create(TimeSlotMock timeSlotMock) {
+        if(queueProcessorMock == null) {
+            queueProcessorMock = new QueueProcessorMock(AppointmentQueueStatus.undefined);
+        }
+        queueProcessorMock.timeSlotMock = timeSlotMock;
+        return queueProcessorMock;
+    }
+    private QueueProcessorMock(AppointmentQueueStatus appointmentQueueStatus) {
         this.appointmentQueueStatus = appointmentQueueStatus;
     }
 
@@ -64,7 +87,12 @@ public class QueueProcessorMock {
     }
     private TimeSlotRepository createTimeSlotRepositoryMock() {
         TimeSlotRepository timeSlotRepository = Mockito.mock(TimeSlotRepository.class);
-        Mockito.when(timeSlotRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
+        Mockito.when(timeSlotRepository.save(any())).thenAnswer(invocationOnMock -> {
+            TimeSlot timeSlot = invocationOnMock.getArgument(0);
+            timeSlotMock.save(timeSlot);
+
+            return timeSlot;
+        });
         Mockito.when(timeSlotRepository.findByStartDateAndActiveAppointmentsLessThan(any(), any()))
                 .thenAnswer(invocationOnMock -> {
             Date appointmentDate = invocationOnMock.getArgument(0);
@@ -86,7 +114,10 @@ public class QueueProcessorMock {
         AppointmentRepository appointmentRepository = Mockito.mock(AppointmentRepository.class);
         Mockito.when(appointmentRepository.findAppointmentsByStartDate(any())).thenReturn(new HashSet<>());
         Mockito.when(appointmentRepository.save(any())).thenAnswer(saveAppointmentAnswer(appointment));
-        Mockito.when(appointmentRepository.countAppointmentsByStartDate(any())).thenAnswer(invocationOnMock -> appointmentsCount);
+        Mockito.when(appointmentRepository.countAppointmentsByStartDate(any())).thenAnswer(invocationOnMock -> {
+            return appointmentsCount;
+
+        });
         return appointmentRepository;
     }
     private StylistRepository createStylistRepositoryMock() {

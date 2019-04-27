@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class UnitAppointmentSystem extends AppointmentSystem {
-    private QueueProcessorMock queueProcessorMock = new QueueProcessorMock(appointmentQueueStatus);
+    private QueueProcessorMock queueProcessorMock = QueueProcessorMock.reset();
 
     @Override
     public ResponseEntity addAppointment(Appointment appointment) {
@@ -47,6 +47,11 @@ public class UnitAppointmentSystem extends AppointmentSystem {
     @Override
     public ResponseEntity<Customer> addCustomer(Customer customer) {
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public int getStylistCount() {
+        return 0;
     }
 
     @Override
